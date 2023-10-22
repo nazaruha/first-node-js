@@ -27,6 +27,7 @@ console.log("last line"); // will be excecuted the firts. Because when the file 
 
 
 // DIRECTORIES
+/*
 if (!fs.existsSync("./assets")) { // whether the directory doesn't exist
     fs.mkdir("./assets", (err) => { // create direcotry. ASYNC METHOD
         if (err) {
@@ -44,6 +45,15 @@ else {
         console.log("folder deleted");
     })
 }
+*/
 
 
 // DELETING FILES
+if (fs.existsSync("./docs/deleteme.txt")) {
+    fs.unlink('./docs/deleteme.txt', (err) => { // delete file ONLY file
+        if (err) {
+            console.log(err);
+        }
+        console.log("file deleted");
+    })
+}
