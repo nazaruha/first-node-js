@@ -1,4 +1,5 @@
 const http = require("http");
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
     console.log(req.url, req.method);
@@ -6,10 +7,21 @@ const server = http.createServer((req, res) => {
     //set header content type
     res.setHeader("Content-Type", "text/html" /*sending some text to the browser*/);
     
-    res.write("<head><link rel=\"stylesheet\" href=\"#\"/></head>")
-    res.write("<h1 style=\"color: red;\">hello, ninjas</h1>"); // what content send to the browser
-    res.write("<h1>hello again, ninjas</h1>");
-    res.end(); // end the response
+    // send an html file
+    if (fs.existsSync("./views/index.html")) {
+        fs.readFile("./views/index.html", (err, data) => {
+            if (err) {
+                console.log("ERR => ", err);
+                res.write("<h1>Page not found 404!</h1>");
+            }
+            else {
+                res.write(data.toString());
+            }
+            res.end();
+        })    
+    }
+    
+
 }); // method to create a server
 
 server.listen(3000 /*port*/, 'localhost'/*ip*/, () => {
