@@ -10,6 +10,8 @@ fs.readFile("./docs/blog1.txt", (err, data) => { // when reading file is done - 
 
 });
 
+console.log("last line"); // will be excecuted the firts. Because when the file is being reading - the compiler excecute the next code to not lose the time
+
 // writing files
 
 
