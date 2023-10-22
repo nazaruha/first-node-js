@@ -15,18 +15,24 @@ console.log("last line"); // will be excecuted the firts. Because when the file 
 */
 
 // WRITING FILES 
-fs.writeFile('./docs/blog1.txt' /*path*/, "hi, dudes!" /*text to write*/, () => {
-    /* code that will execute when the file will be written */
-    console.log("file was written");
-});
+// fs.writeFile('./docs/blog1.txt' /*path*/, "hi, dudes!" /*text to write*/, () => {
+//     /* code that will execute when the file will be written */
+//     console.log("file was written");
+// });
 
-fs.writeFile('./docs/blog2.txt' /*path. Creates file if it doesn't exist*/, "hi, dudes!" /*text to write*/, () => {
-    /* code that will execute when the file will be written */
-    console.log("file was written");
-});
+// fs.writeFile('./docs/blog2.txt' /*path. Creates file if it doesn't exist*/, "hi, dudes!" /*text to write*/, () => {
+//     /* code that will execute when the file will be written */
+//     console.log("file was written");
+// });
 
 
 // DIRECTORIES
+fs.mkdir("./assets", (err) => { // create direcotry. ASYNC METHOD
+    if (err) {
+        console.log(err);
+    }
+    console.log("folder created");
+});
 
 
 // DELETING FILES
