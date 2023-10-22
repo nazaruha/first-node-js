@@ -1,6 +1,7 @@
 const fs = require('fs'); // fs - File System
 
-// reading files
+// READING FILES
+/*
 fs.readFile("./docs/blog1.txt", (err, data) => { // when reading file is done - it excecutes this code
     if (err) {
         console.log(err);
@@ -11,11 +12,21 @@ fs.readFile("./docs/blog1.txt", (err, data) => { // when reading file is done - 
 });
 
 console.log("last line"); // will be excecuted the firts. Because when the file is being reading - the compiler excecute the next code to not lose the time
+*/
 
-// writing files
+// WRITING FILES 
+fs.writeFile('./docs/blog1.txt' /*path*/, "hi, dudes!" /*text to write*/, () => {
+    /* code that will execute when the file will be written */
+    console.log("file was written");
+});
+
+fs.writeFile('./docs/blog2.txt' /*path. Creates file if it doesn't exist*/, "hi, dudes!" /*text to write*/, () => {
+    /* code that will execute when the file will be written */
+    console.log("file was written");
+});
 
 
-// directories
+// DIRECTORIES
 
 
-// deleting files
+// DELETING FILES
