@@ -7,6 +7,7 @@ const server = http.createServer((req, res) => {
     //set header content type
     res.setHeader("Content-Type", "text/html" /*sending some text to the browser*/);
     
+    //routing
     let path = './views/';
     switch (req.url) {
         case '/':
@@ -17,6 +18,11 @@ const server = http.createServer((req, res) => {
             path += "about.html";
             res.statusCode = 200;
             break;
+        case '/about-us': // redirect
+            res.statusCode = 301; // range 300 statuses are for redirect
+            res.setHeader("Location", "/about" /*where to redirect*/);
+            res.end();
+            break;
         default:
             path += "404.html";
             res.statusCode = 404;
@@ -24,18 +30,13 @@ const server = http.createServer((req, res) => {
     }
 
     // send an html file
-    if (fs.existsSync(path)) {
-        fs.readFile(path, (err, data) => {
-            if (err) {
-                console.log("ERR => ", err);
-                res.write(data.toString());
-            }
-            else {
-                res.write(data.toString());
-            }
+    fs.readFile(path, (err, data) => {
+        if (err) {
+            console.log("ERR => ", err);
             res.end();
-        })    
-    }
+        }
+        res.end(data); // both outputs html and ends the response
+    })    
     
 
 }); // method to create a server
