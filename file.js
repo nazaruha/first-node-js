@@ -37,6 +37,12 @@ if (!fs.existsSync("./assets")) { // whether the directory doesn't exist
 }
 else {
     console.log("folder already exists.");
+    fs.rmdir("./assets", (err) => {
+        if (err) {
+            console.log(err);
+        }
+        console.log("folder deleted");
+    })
 }
 
 
