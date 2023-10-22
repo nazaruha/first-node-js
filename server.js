@@ -7,12 +7,25 @@ const server = http.createServer((req, res) => {
     //set header content type
     res.setHeader("Content-Type", "text/html" /*sending some text to the browser*/);
     
+    let path = './views/';
+    switch (req.url) {
+        case '/':
+            path += "index.html";
+            break;
+        case '/about':
+            path += "about.html";
+            break;
+        default:
+            path += "404.html";
+            break;
+    }
+
     // send an html file
-    if (fs.existsSync("./views/index.html")) {
-        fs.readFile("./views/index.html", (err, data) => {
+    if (fs.existsSync(path)) {
+        fs.readFile(path, (err, data) => {
             if (err) {
                 console.log("ERR => ", err);
-                res.write("<h1>Page not found 404!</h1>");
+                res.write(data.toString());
             }
             else {
                 res.write(data.toString());
