@@ -23,3 +23,10 @@ app.get("/about", (req, res) => {
 app.get("/about-us", (req, res) => {
     res.redirect("/about"); // that's it... easy
 });
+
+// 404 page
+// it works when no response was successfull.
+// must be in the bottom of all routes. routes under it won't work
+app.use((req, res) => { 
+    res.status(404).sendFile("./views/404.html", {root: __dirname});
+})
