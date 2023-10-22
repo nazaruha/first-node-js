@@ -1,8 +1,20 @@
 const http = require("http");
 const fs = require('fs');
+const _ = require("lodash");
 
 const server = http.createServer((req, res) => {
-    console.log(req.url, req.method);
+    //console.log(req.url, req.method);
+
+    // lodash
+    const num = _.random(0, 20); // returns a random number 0-20
+    console.log(num);
+
+    const greet = _.once(() => { // prevent repeating function
+        console.log('hello');
+    });
+
+    greet();
+    greet(); // won't be executed
 
     //set header content type
     res.setHeader("Content-Type", "text/html" /*sending some text to the browser*/);
@@ -18,7 +30,7 @@ const server = http.createServer((req, res) => {
             path += "about.html";
             res.statusCode = 200;
             break;
-        case '/about-us': // redirect
+        case '/about-uss': // redirect
             res.statusCode = 301; // range 300 statuses are for redirect
             res.setHeader("Location", "/about" /*where to redirect*/);
             res.end();
