@@ -27,12 +27,17 @@ console.log("last line"); // will be excecuted the firts. Because when the file 
 
 
 // DIRECTORIES
-fs.mkdir("./assets", (err) => { // create direcotry. ASYNC METHOD
-    if (err) {
-        console.log(err);
-    }
-    console.log("folder created");
-});
+if (!fs.existsSync("./assets")) { // whether the directory doesn't exist
+    fs.mkdir("./assets", (err) => { // create direcotry. ASYNC METHOD
+        if (err) {
+            console.log(err);
+        }
+        console.log("folder created");
+    });
+}
+else {
+    console.log("folder already exists.");
+}
 
 
 // DELETING FILES
