@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 
 // express app
 const app = express();
@@ -10,13 +11,17 @@ app.set("views" /*what to change*/, "./views/ejs"/*new directory name*/); // if 
 // listen for requests
 app.listen(3000); // automatically infers to the localhost
 
-app.use((req, res, next) => { // will fire after each request 'cause it's on the top
-    console.log("new request made:");
-    console.log("host: ", req.hostname);
-    console.log("path: ", req.path);
-    console.log("method", req.method);
-    next(); // alows to work request under it
-});
+// simple middleware example
+// app.use((req, res, next) => { // will fire after each request 'cause it's on the top
+//     console.log("new request made:");
+//     console.log("host: ", req.hostname);
+//     console.log("path: ", req.path);
+//     console.log("method", req.method);
+//     next(); // alows to work request under it
+// });
+
+// morgan middleware
+app.use(morgan("dev")); // output the hostname, path, method and other useful things after every request in our way
 
 
 
@@ -30,10 +35,11 @@ app.get("/", (req, res) => {
     // create `title` var with value `Home` and can use it as a js inside `index.ejs` file
 });
 
-app.use((req, res, next) => {
-    console.log("in the next middleware1");
-    next();
-});
+// simple middleware example
+// app.use((req, res, next) => { // will fire after each request instead of which are above it
+//     console.log("in the next middleware1");
+//     next();
+// });
 
 app.get("/about", (req, res) => {
     res.render("about", {title: 'About'});
