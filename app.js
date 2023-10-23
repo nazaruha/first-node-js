@@ -1,15 +1,25 @@
 const express = require("express");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
 
 // express app
 const app = express();
 
+// connect to mongodb
+const dbURI = "mongodb+srv://netninja:Qwerty-1@cluster0.5jfcytu.mongodb.net/node-tuts?retryWrites=true&w=majority";
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true } /* just to avoid deprecated messages in the terminal */)
+    .then((result) => {
+        console.log("connected to DB");
+        // listen for requests
+        app.listen(3000); // automatically infers to the localhost
+        // replaced, because we want to connect to the server when we successfully connected to the DB. IT LOGICAL
+    }).catch((err) => {
+        console.log(`Error: ${err}`);
+    })
+
 //register view engine
 app.set('view engine', 'ejs'); // the default directory for EJSs is the 'views' directory
 app.set("views" /*what to change*/, "./views/ejs"/*new directory name*/); // if you have another directory for views - set up another direcoty name for it for exmpl: 'myviews'
-
-// listen for requests
-app.listen(3000); // automatically infers to the localhost
 
 // simple middleware example
 // app.use((req, res, next) => { // will fire after each request 'cause it's on the top
