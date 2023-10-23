@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const Blog = require("./models/blog");
 
 // express app
 const app = express();
@@ -17,7 +18,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true } /* j
         console.log(`Error: ${err}`);
     })
 
-//register view engine
+//register view engine (connect ejs)
 app.set('view engine', 'ejs'); // the default directory for EJSs is the 'views' directory
 app.set("views" /*what to change*/, "./views/ejs"/*new directory name*/); // if you have another directory for views - set up another direcoty name for it for exmpl: 'myviews'
 
@@ -34,7 +35,32 @@ app.set("views" /*what to change*/, "./views/ejs"/*new directory name*/); // if 
 app.use(express.static("public")); // setted that we access static files in the `public` directory. There we can add our css and smth else I guess
 app.use(morgan("dev")); // output the hostname, path, method and other useful things after every request in our way
 
+// mongoose and mongo sandbox routes
+app.get("/add-blog", (req, res) => {
+    const blog = new Blog({
+        title: 'New blog 2',
+        snippet: 'about me new blog',
+        body: 'more about my new blog'
+    }); // create new instance
 
+    // async method
+    blog.save() // saves new instance to the db;
+        .then((result) => res.send(result))
+        .catch((err) => res.status(404).render("404", { title: 404, error_message: err }));
+});
+
+app.get("/all-blogs", (req, res) => {
+    Blog.find() // gets all blogs from db
+        .then((result) => res.send(result))
+        .catch((err) => cres.status(404).render("404", { title: 404, error_message: err }));
+})
+
+app.get("/single-blog/:id", (req, res) => {
+    const blogId = req.params.id; // get id from URL
+    Blog.findById(blogId.toString()) // gets a blog by id
+        .then((result) => res.send(result))
+        .catch((err) => res.status(404).render("404", { title: 404, error_message: err }));
+})
 
 app.get("/", (req, res) => {
     const blogs = [
