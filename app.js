@@ -20,7 +20,8 @@ app.listen(3000); // automatically infers to the localhost
 //     next(); // alows to work request under it
 // });
 
-// morgan middleware
+//  morgan middleware & static files
+app.use(express.static("public")); // setted that we access static files in the `public` directory. There we can add our css and smth else I guess
 app.use(morgan("dev")); // output the hostname, path, method and other useful things after every request in our way
 
 
