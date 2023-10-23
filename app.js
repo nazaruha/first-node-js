@@ -10,6 +10,16 @@ app.set("views" /*what to change*/, "./views/ejs"/*new directory name*/); // if 
 // listen for requests
 app.listen(3000); // automatically infers to the localhost
 
+app.use((req, res, next) => { // will fire after each request 'cause it's on the top
+    console.log("new request made:");
+    console.log("host: ", req.hostname);
+    console.log("path: ", req.path);
+    console.log("method", req.method);
+    next(); // alows to work request under it
+});
+
+
+
 app.get("/", (req, res) => {
     const blogs = [
         {title: "Yoshi finds eggs", snippet: "Lorem ipsum dolor sit amet consectetur"},
@@ -18,6 +28,11 @@ app.get("/", (req, res) => {
     ]
     res.render("index", {title: 'Home', blogs: blogs}); // will look for `index.ejs` file inside `views` directory
     // create `title` var with value `Home` and can use it as a js inside `index.ejs` file
+});
+
+app.use((req, res, next) => {
+    console.log("in the next middleware1");
+    next();
 });
 
 app.get("/about", (req, res) => {
