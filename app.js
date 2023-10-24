@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-const Blog = require("./models/blog");
+const blogRoutes = require("./routes/blogRoutes");
 
 // express app
 const app = express();
@@ -37,59 +37,8 @@ app.get("/about", (req, res) => {
 
 //redirect will work automatically
 
-// blog routes
-app.get("/blogs", (req, res) => {
-    Blog.find().sort({ createdAt: -1 }) // sort by descending (from the newest to the oldest)
-        .then((result) => {
-            res.render("index", {title: "Blogs", blogs: result})
-        })
-        .catch((err) => {
-            res.redirect("404", {title: "404", error_message: err});
-        })
-})
-
-app.post("/blogs", (req, res) => {
-    console.log(req.body); // get the posted data from HTML;
-    
-    const blog = new Blog(req.body);
-
-    blog.save()
-        .then((result) => {
-            console.log(result);
-            res.redirect("/blogs");
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-})
-
-app.get("/blogs/create", (req, res) => {
-    res.render("create", {title: 'Create a new Blog'});
-})
-
-app.get("/blogs/:id", (req, res) => {
-    const blogId = req.params.id;
-    Blog.findById(blogId)
-        .then(result => {
-            res.render('details', {blog: result, title: "Blog Details"})
-        })
-        .catch(err => {
-            console.log(err);
-        })
-});
-
-app.delete("/blogs/:id", (req, res) => {
-    const blogId = req.params.id;
-
-    Blog.findByIdAndDelete(blogId)
-        .then((result) => {
-            // don't use redirect 'cause we get data from script js in in the details.ejs
-            res.json({ redirect: '/blogs' }); // the same as redirect but look above comment
-        })
-        .catch((err) => {
-            console.log(err)
-        });
-});
+//blog routes
+app.use('/blogs' /*add this to the begin of each request*/, blogRoutes); // connect our routes for work with blogs
 
 // 404 page
 // it works when no response was successfull.
