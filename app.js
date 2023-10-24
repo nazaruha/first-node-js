@@ -20,7 +20,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true } /* j
 
 //register view engine (connect ejs)
 app.set('view engine', 'ejs'); // the default directory for EJSs is the 'views' directory
-app.set("views" /*what to change*/, "./views/ejs"/*new directory name*/); // if you have another directory for views - set up another direcoty name for it for exmpl: 'myviews'
+//app.set("views" /*what to change*/, "./views/ejs"/*new directory name*/); // if you have another directory for views - set up another direcoty name for it for exmpl: 'myviews'
 
 //  morgan middleware & static files
 app.use(express.static("public")); // setted that we access static files in the `public` directory. There we can add our css and smth else I guess

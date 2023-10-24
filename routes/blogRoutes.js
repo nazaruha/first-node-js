@@ -1,61 +1,18 @@
 const express = require("express");
-const Blog = require("../models/blog");
+const blogController = require("../controllers/blogController");
 
-// it's like an app
+// it's like an `app`
 const router = express.Router(); // create a new instance of a Router obj
 
 // blog routes
-router.get("/", (req, res) => {
-    Blog.find().sort({ createdAt: -1 }) // sort by descending (from the newest to the oldest)
-        .then((result) => {
-            res.render("index", {title: "Blogs", blogs: result})
-        })
-        .catch((err) => {
-            res.redirect("404", {title: "404", error_message: err});
-        })
-})
+router.get("/", blogController.blog_index); // `req` and `res` will be pasted automatically
 
-router.post("/", (req, res) => {
-    console.log(req.body); // get the posted data from HTML;
-    
-    const blog = new Blog(req.body);
+router.post("/", blogController.blog_create_post);
 
-    blog.save()
-        .then((result) => {
-            console.log(result);
-            res.redirect("/blogs");
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-})
+router.get("/create", blogController.blog_create_get);
 
-router.get("/create", (req, res) => {
-    res.render("create", {title: 'Create a new Blog'});
-})
+router.get("/:id", blogController.blog_details);
 
-router.get("/:id", (req, res) => {
-    const blogId = req.params.id;
-    Blog.findById(blogId)
-        .then(result => {
-            res.render('details', {blog: result, title: "Blog Details"})
-        })
-        .catch(err => {
-            console.log(err);
-        })
-});
-
-router.delete("/:id", (req, res) => {
-    const blogId = req.params.id;
-
-    Blog.findByIdAndDelete(blogId)
-        .then((result) => {
-            // don't use redirect 'cause we get data from script js in in the details.ejs
-            res.json({ redirect: '/blogs' }); // the same as redirect but look above comment
-        })
-        .catch((err) => {
-            console.log(err)
-        });
-});
+router.delete("/:id", blogController.blog_delete);
 
 module.exports = router;
