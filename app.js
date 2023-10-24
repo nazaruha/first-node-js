@@ -78,6 +78,19 @@ app.get("/blogs/:id", (req, res) => {
         })
 });
 
+app.delete("/blogs/:id", (req, res) => {
+    const blogId = req.params.id;
+
+    Blog.findByIdAndDelete(blogId)
+        .then((result) => {
+            // don't use redirect 'cause we get data from script js in in the details.ejs
+            res.json({ redirect: '/blogs' }); // the same as redirect but look above comment
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+});
+
 // 404 page
 // it works when no response was successfull.
 // must be in the bottom of all routes. routes under it won't work
