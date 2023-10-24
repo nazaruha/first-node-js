@@ -24,6 +24,7 @@ app.set("views" /*what to change*/, "./views/ejs"/*new directory name*/); // if 
 
 //  morgan middleware & static files
 app.use(express.static("public")); // setted that we access static files in the `public` directory. There we can add our css and smth else I guess
+app.use(express.urlencoded()); // for parsing data from HTML to the SERVER
 app.use(morgan("dev")); // output the hostname, path, method and other useful things after every request in our way
 
 app.get("/", (req, res) => {
@@ -44,6 +45,21 @@ app.get("/blogs", (req, res) => {
         })
         .catch((err) => {
             res.redirect("404", {title: "404", error_message: err});
+        })
+})
+
+app.post("/blogs", (req, res) => {
+    console.log(req.body); // get the posted data from HTML;
+    
+    const blog = new Blog(req.body);
+
+    blog.save()
+        .then((result) => {
+            console.log(result);
+            res.redirect("/blogs");
+        })
+        .catch((err) => {
+            console.log(err);
         })
 })
 
