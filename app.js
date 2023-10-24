@@ -67,9 +67,20 @@ app.get("/blogs/create", (req, res) => {
     res.render("create", {title: 'Create a new Blog'});
 })
 
+app.get("/blogs/:id", (req, res) => {
+    const blogId = req.params.id;
+    Blog.findById(blogId)
+        .then(result => {
+            res.render('details', {blog: result, title: "Blog Details"})
+        })
+        .catch(err => {
+            console.log(err);
+        })
+});
+
 // 404 page
 // it works when no response was successfull.
 // must be in the bottom of all routes. routes under it won't work
 app.use((req, res) => { 
-    res.status(404).render("404", {title: '404'});
+    res.status(404).render("404", {title: '404', error_message: ""});
 })
