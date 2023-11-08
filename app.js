@@ -8,7 +8,7 @@ const app = express();
 
 // connect to mongodb
 const dbURI = "mongodb+srv://netninja:Qwerty-1@cluster0.5jfcytu.mongodb.net/node-tuts?retryWrites=true&w=majority";
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true } /* just to avoid deprecated messages in the terminal */)
+mongoose.connect(dbURI)
     .then((result) => {
         console.log("connected to DB");
         // listen for requests
